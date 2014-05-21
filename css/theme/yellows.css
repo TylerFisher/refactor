@@ -164,3 +164,11 @@ body {
   margin-top: 0; }
 .reveal figure.freezeframe-container {
   background-color: black !important; }
+.reveal blockquote {
+  border-left: 10px solid #c7f464;
+  box-shadow: none;
+  font-size: 1.1em;
+  padding: 25px;
+  width: 100%; }
+.reveal .cite {
+  font-size: 0.75em; }

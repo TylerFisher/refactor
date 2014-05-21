@@ -81,4 +81,16 @@ $linkColorHover: lighten( $linkColor, 20% );
     figure.freezeframe-container {
         background-color: black !important;
     }
+
+    blockquote {
+        border-left: 10px solid $mainColor;
+        box-shadow: none;
+        font-size: 1.1em;
+        padding: 25px;
+        width: 100%;
+    }
+
+    .cite {
+        font-size: 0.75em;
+    }
 }

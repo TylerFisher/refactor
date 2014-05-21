@@ -45,6 +45,9 @@
 
             <div class="slides">
                 <section>
+                    <h1>Cleaning Up Sloppy Code</h1>
+
+                    <p><a href="http://tylerjfisher.com">Tyler Fisher</a> | <a href="http://twitter.com/tylrfishr">@tylrfishr</a>
 
                     <aside class="notes">
 
@@ -52,6 +55,14 @@
                 </section>
 
                 <section>
+                    <h2>Is this familiar?</h2>
+
+                    <pre><code>
+    var imgc = 0
+    $('.next').click(function()
+    {imgc = imgc + 1;
+    $('.photo').attr('src', 'images/img' + imgc + '.jpg')})
+                    </code></pre>
 
                     <aside class="notes">
 
@@ -59,6 +70,13 @@
                 </section>
 
                 <section>
+                    <h2>Or this?</h2>
+
+                    <pre><code>
+    function doeverythinginmycode() {
+        // 300 lines of code
+    }
+                    </code></pre>
 
                     <aside class="notes">
 
@@ -66,53 +84,292 @@
                 </section>
 
                 <section>
+                    <h2>How about this?</h2>
 
+                    <pre><code>
+    var imgc = 0;
+
+    $('.next').click(function() {
+        imgc = imgc + 1;
+        $('.photo').attr('src', 'images/img' + imgc + '.jpg');
+    });
+
+    $('.prev').click(function() {
+        imgc = imgc - 1;
+        $('.photo').attr('src', 'images/img' + imgc + '.jpg');
+    });
+                    </code></pre>
                     <aside class="notes">
 
                     </aside>
                 </section>
 
                 <section>
-
+                    <h3 class="jubilat">Good code requires good habits.</h3>
                     <aside class="notes">
 
                     </aside>
                 </section>
 
                 <section>
-
+                    <blockquote>
+                        &ldquo;Code will be read and modified more frequently than it will be written.&rdquo;
+                    </blockquote>
+                    <p class="cite"> — Erich Gamma, architect of JUnit and Eclipse</p>
                     <aside class="notes">
 
                     </aside>
                 </section>
 
                 <section>
-
+                    <p>Code should be readable and understandable for another programmer.</p>
                     <aside class="notes">
 
                     </aside>
                 </section>
 
                 <section>
+                    <p>This includes <em>you</em> in six months, trying to remember how you did something.</p>
 
+                    <aside class="notes">
+
+                    </aside>
+                </section>
+
+                <section data-background="#C44D58">
+                    <h2>Refactoring</h2>
                     <aside class="notes">
 
                     </aside>
                 </section>
 
                 <section>
+                    <p>No one writes perfect, readable code on the first try.</p>
 
                     <aside class="notes">
 
                     </aside>
+                </section>
+                <section>
+                    <blockquote>
+                        &ldquo;Refactoring is a process of changing [software] in such way that it does not alter the external behavior of the code yet improves its internal structure.&rdquo;
+                    </blockquote>
+
+                    <p class="cite"> — Martin Fowler, author of <em>Refactoring</em></p>
                 </section>
 
                 <section>
-
-                    <aside class="notes">
-
-                    </aside>
+                    <p>Taking the time to refactor makes your code legible.</p>
                 </section>
+
+                <section data-background="#C44D58">
+                    <h2>Style</h2>
+                </section>
+
+                <section>
+                    <h2>Bad</h2>
+                    <pre><code contenteditable>
+    var photosarray = ['img1.jpg', "img2.jpg", 'img3.jpg', 'img4.jpg'];
+    var photos_array_counter = 0;
+    var p = $('.photo');
+
+    function nextPhoto() {
+      // code
+    }
+
+    var prevPhoto = function()
+    {
+        // code
+        }
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Better</h2>
+                    <pre><code contenteditable>
+    var photosArray = ['img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg'];
+    var photosArrayCounter = 0;
+    var visiblePhoto = $('.photo');
+
+    var nextPhoto = function() {
+        // code
+    }
+
+    var prevPhoto = function() {
+        // code
+    }
+                    </code></pre>
+                </section>
+
+                <section>
+                    <img src="http://cdnl.complex.com/mp/620/400/80/0/bb/1/ffffff/3a3fe391a9c133784fea4dd729890ec1/images_/assets/CHANNEL_IMAGES/TECH/2014/01/15-gifs-we-can-retire-now/wyrrv_omar_805859.gif">
+                </section>
+
+                <section>
+                    <h3>The AP Style of JS</h3>
+                    <ul>
+                        <li>4 spaces for indentation</li>
+                        <li>camelCaseCapitalization</li>
+                        <li><code>var functionName = function() {}</code></li>
+                        <li>Single quotes for strings</li>
+                    </ul>
+                </section>
+
+                <section data-background="#C44D58">
+                    <h2>Duplicates</h2>
+                </section>
+
+                <section>
+                    <p>Never write two functions to do the same thing.</p>
+                </section>
+
+                <section>
+                    <h2>Bad</h2>
+                    <pre><code>
+    var imgc = 0;
+
+    $('.next').click(function() {
+        imgc = imgc + 1;
+        $('.photo').attr('src', 'images/img' + imgc + '.jpg');
+    });
+
+    $('.prev').click(function() {
+        imgc = imgc - 1;
+        $('.photo').attr('src', 'images/img' + imgc + '.jpg');
+    });
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Better</h2>
+                    <pre><code>
+    var imgc = 0;
+
+    var changePhoto = function() {
+
+        if ($(this).hasClass('next')) {
+            imgc++;
+        }
+        else if ($(this).hasClass('prev')) {
+            imgc--;
+        }
+
+        $visiblePhoto.attr('src', 'images/img' + imgc + '.jpg']);
+    }
+
+    $('.next').click(changePhoto);
+    $('.prev').click(changePhoto);
+
+                    </code></pre>
+                </section>
+
+                <section data-background="#C44D58">
+                    <h2>Organization</h2>
+                </section>
+
+                <section>
+                    <p>You should have a predictable structure in your JavaScript files.</p>
+                </section>
+
+                <section>
+                    <pre><code contenteditable>
+    // all variables I will use
+
+    var photosArray;
+    var photosArrayCounter;
+    var $visiblePhoto;
+
+    // all functions
+
+    var changePhoto = function() {
+        if ($(this).hasClass('next') && photosArrayCounter < photosArray.length) {
+            photosArrayCounter++;
+        }
+        else if ($(this).hasClass('prev') && photosArrayCounter > 0) {
+            photosArrayCounter--;
+        }
+
+        $visiblePhoto.attr('src', photosArray[photosArrayCounter]);
+    }
+
+    // what should happen when the page loads
+
+    $(document).ready(function() {
+        // declare variables
+
+        photosArray = ['img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg'];
+        photosArrayCounter = 0;
+        $visiblePhoto = $('.photo');
+
+        // attach event handlers
+
+        $('.next').click(changePhoto);
+        $('.prev').click(changePhoto);
+
+        // call any functions that need to run on page load
+        // we don't have any
+    });
+
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>An order</h2>
+
+                    <ul>
+                        <li>Declare variables</li>
+                        <li>Define functions</li>
+                        <li>What happens on page load + event handlers</li>
+                    </ul>
+                </section>
+
+                <section data-background="#C44D58">
+                    <h2>General readability</h2>
+                </section>
+
+                <section>
+                    <h2>Comment heavily</h2>
+
+                    <pre><code>
+    // Change the photo when a button is clicked
+
+    var changePhoto = function() {
+
+        // look for the class of the button clicked and the position in the array
+        if ($(this).hasClass('next') && photosArrayCounter < photosArray.length) {
+            photosArrayCounter++;
+        }
+        else if ($(this).hasClass('prev') && photosArrayCounter > 0) {
+            photosArrayCounter--;
+        }
+
+        // change the displayed photo's source attribute
+        $visiblePhoto.attr('src', photosArray[photosArrayCounter]);
+    }
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Use descriptive names</h2>
+
+                    <pre><code>
+    var photo = $('.photo');
+
+    // versus
+
+    var $visiblePhoto = $('.photo');
+                    </code></pre>
+                </section>
+
+            <section>
+                <h2>Post work</h2>
+
+                <p>Make your project's JavaScript look like mine.</p>
+
+                <p>Example: <a href="http://bit.ly/code-organization">bit.ly/code-organization</a></p>
+
+                <p>Slides: <a href="http://tylerjfisher.com/refactor">tylerjfisher.com/refactor</a></p>
+            </section>
+
 
             </div>
 
